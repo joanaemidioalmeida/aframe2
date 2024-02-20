@@ -7,11 +7,23 @@
     <script>
         AFRAME.registerComponent('hello', {
     schema: {
-        message: {type: 'string', default: 'Hello!'}
+        message: {type: 'string', default: 'Hello!'},
+        event: {type: 'string', default: ''},
       },
 
     init: function () {
-        console.log(this.data.message);
+      var data = this.data;  // Component property values.
+      var el = this.el;  // Reference to the component's entity.
+  
+      if (data.event) {
+        // This will log the `message` when the entity emits the `event`.
+        el.addEventListener(data.event, function () {
+          console.log(data.message);
+        });
+      } else {
+        // `event` not specified, just log the message.
+        console.log(data.message);
+      };
     }
   });
     </script>
@@ -19,12 +31,12 @@
       <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"
           animation="startEvents: click; property: position;
               from: -1 1.5 -3; to: -1 0.5 -3; dur: 1000"
-          hello>
+          hello="event: click; message: Clicked!">
       </a-box>
       <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"
           animation="startEvents: click; property: scale;
               from: 2 2 2; to: 1 1 1; dur: 1000"
-          hello="message: Hola">
+              hello="event: click; message: esfera!">
       </a-sphere>
       <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
 
